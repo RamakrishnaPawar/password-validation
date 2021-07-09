@@ -15,3 +15,5 @@ use the below command to run the application
 ```
 dotnet run
 ```
+### Note
+Currently application can be run(test) only via unit tests.
