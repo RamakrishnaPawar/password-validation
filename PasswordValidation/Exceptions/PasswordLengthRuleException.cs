@@ -4,7 +4,7 @@ namespace PasswordValidation.Exceptions
 {
     public class PasswordLengthRuleException : Exception
     {
-        public PasswordLengthRuleException(string? message) : base(message)
+        public PasswordLengthRuleException(string message) : base(message)
         {
         }
     }

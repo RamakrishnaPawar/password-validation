@@ -4,7 +4,7 @@ namespace PasswordValidation.Exceptions
 {
     public class PasswordUpperCaseRuleException : Exception
     {
-        public PasswordUpperCaseRuleException(string? message) : base(message)
+        public PasswordUpperCaseRuleException(string message) : base(message)
         {
         }
     }
