@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using PasswordValidation.Providers;
 
 namespace PasswordValidation.Evaluators
@@ -14,7 +15,8 @@ namespace PasswordValidation.Evaluators
 
         public bool Evaluate(string input)
         {
-            throw new NotImplementedException();
+            return _passwordValidationRuleProvider.ProvideRules()
+                .All(rule => rule.Evaluate(input));
         }
     }
 }

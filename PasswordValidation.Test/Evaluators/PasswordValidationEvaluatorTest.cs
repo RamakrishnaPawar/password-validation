@@ -37,6 +37,30 @@ namespace PasswordValidation.Test.Evaluators
 
             Assert.True(actual);
         }
+        
+        [Fact]
+        public void ShouldReturnFalseWhenAnyOneRuleFails()
+        {
+            const string input = "QwesssfaaAvt";
+            _mockPasswordValidationRuleProvider.Setup(m => m.ProvideRules())
+                .Returns(GetAllRules());
+
+            var actual = _passwordValidationEvaluator.Evaluate(input);
+
+            Assert.False(actual);
+        }
+        
+        [Fact]
+        public void ShouldReturnFalseWhenAllRuleFails()
+        {
+            const string input = "a";
+            _mockPasswordValidationRuleProvider.Setup(m => m.ProvideRules())
+                .Returns(GetAllRules());
+
+            var actual = _passwordValidationEvaluator.Evaluate(input);
+
+            Assert.False(actual);
+        }
 
         private List<IRule> GetAllRules()
         {
