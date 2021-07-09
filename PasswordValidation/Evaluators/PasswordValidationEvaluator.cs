@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using PasswordValidation.Providers;
 
@@ -15,8 +17,22 @@ namespace PasswordValidation.Evaluators
 
         public bool Evaluate(string input)
         {
-            return _passwordValidationRuleProvider.ProvideRules()
-                .All(rule => rule.Evaluate(input));
+            var exception = new List<Exception>();
+            _passwordValidationRuleProvider.ProvideRules()
+                .ForEach(rule =>
+                {
+                    try
+                    {
+                        rule.Evaluate(input);
+                    }
+                    catch (Exception ex)
+                    {
+                        exception.Add(ex);
+                    }
+                });
+            if (exception.Count > 0)
+                throw new AggregateException("Exceptions", exception);
+            return true;
         }
     }
 }

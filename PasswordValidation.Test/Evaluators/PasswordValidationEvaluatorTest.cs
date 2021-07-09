@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using FluentAssertions;
 using Moq;
 using PasswordValidation.Evaluators;
 using PasswordValidation.Providers;
@@ -37,7 +39,7 @@ namespace PasswordValidation.Test.Evaluators
 
             Assert.True(actual);
         }
-        
+
         [Fact]
         public void ShouldReturnFalseWhenAnyOneRuleFails()
         {
@@ -45,21 +47,26 @@ namespace PasswordValidation.Test.Evaluators
             _mockPasswordValidationRuleProvider.Setup(m => m.ProvideRules())
                 .Returns(GetAllRules());
 
-            var actual = _passwordValidationEvaluator.Evaluate(input);
-
-            Assert.False(actual);
+            var exceptions = Assert.Throws<AggregateException>(() => _passwordValidationEvaluator.Evaluate(input));
+            exceptions.InnerExceptions.Should().HaveCount(1);
+            Assert.Equal(
+                "Exceptions (Minimum 1 character required to number)",
+                exceptions.Message);
         }
-        
+
         [Fact]
-        public void ShouldReturnFalseWhenAllRuleFails()
+        public void ShouldThrowErrorWhenAllRuleFails()
         {
-            const string input = "a";
+            const string input = "$";
             _mockPasswordValidationRuleProvider.Setup(m => m.ProvideRules())
                 .Returns(GetAllRules());
 
-            var actual = _passwordValidationEvaluator.Evaluate(input);
-
-            Assert.False(actual);
+            var exceptions = Assert.Throws<AggregateException>(() => _passwordValidationEvaluator.Evaluate(input));
+            exceptions.InnerExceptions.Should().HaveCount(4);
+            Assert.Equal(
+                $"Exceptions (Minimum 1 character required to number) (Minimum required password length:9) " +
+                $"(Minimum 1 character required in lower case) (Minimum 1 character required in upper case)",
+                exceptions.Message);
         }
 
         private List<IRule> GetAllRules()
