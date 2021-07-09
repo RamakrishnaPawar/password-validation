@@ -1,10 +1,12 @@
+using System.Linq;
+
 namespace PasswordValidation.Rules
 {
-    public class PasswordLowerCaseRule: IRule
+    public class PasswordLowerCaseRule : IRule
     {
         public bool Evaluate(string input)
         {
-            throw new System.NotImplementedException();
+            return input.Any(char.IsLower);
         }
     }
 }
