@@ -18,21 +18,22 @@ namespace PasswordValidation.Evaluators
         public bool Evaluate(string input)
         {
             var exception = new List<Exception>();
+            var numberOfRulesPassed = 0;
             _passwordValidationRuleProvider.ProvideRules()
                 .ForEach(rule =>
                 {
                     try
                     {
-                        rule.Evaluate(input);
+                        numberOfRulesPassed += rule.Evaluate(input) ? 1 : 0;
                     }
                     catch (Exception ex)
                     {
                         exception.Add(ex);
                     }
                 });
-            if (exception.Count > 0)
-                throw new AggregateException("Exceptions", exception);
-            return true;
+            if (numberOfRulesPassed > 2)
+                return true;
+            throw new AggregateException("Exceptions", exception);
         }
     }
 }

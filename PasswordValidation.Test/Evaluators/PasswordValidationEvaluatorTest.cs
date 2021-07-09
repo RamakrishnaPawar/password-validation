@@ -39,18 +39,30 @@ namespace PasswordValidation.Test.Evaluators
 
             Assert.True(actual);
         }
+        
+        [Fact]
+        public void ShouldReturnTrueWhenAtLeastThreeRulesPassed()
+        {
+            const string input = "13SSAAASS";
+            _mockPasswordValidationRuleProvider.Setup(m => m.ProvideRules())
+                .Returns(GetAllRules());
+
+            var actual = _passwordValidationEvaluator.Evaluate(input);
+
+            Assert.True(actual);
+        }
 
         [Fact]
-        public void ShouldReturnFalseWhenAnyOneRuleFails()
+        public void ShouldReturnFalseWhenAnyTwoRuleFails()
         {
-            const string input = "QwesssfaaAvt";
+            const string input = "Qwesss";
             _mockPasswordValidationRuleProvider.Setup(m => m.ProvideRules())
                 .Returns(GetAllRules());
 
             var exceptions = Assert.Throws<AggregateException>(() => _passwordValidationEvaluator.Evaluate(input));
-            exceptions.InnerExceptions.Should().HaveCount(1);
+            exceptions.InnerExceptions.Should().HaveCount(2);
             Assert.Equal(
-                "Exceptions (Minimum 1 character required to number)",
+                "Exceptions (Minimum 1 character required to number) (Minimum required password length:9)",
                 exceptions.Message);
         }
 
