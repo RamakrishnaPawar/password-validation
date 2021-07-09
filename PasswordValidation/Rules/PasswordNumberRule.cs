@@ -1,10 +1,12 @@
+using System.Linq;
+
 namespace PasswordValidation.Rules
 {
-    public class PasswordNumberRule:IRule
+    public class PasswordNumberRule : IRule
     {
         public bool Evaluate(string input)
         {
-            throw new System.NotImplementedException();
+            return input.Any(char.IsNumber);
         }
     }
 }
