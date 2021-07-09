@@ -1,2 +1,4 @@
 /PasswordValidation/.idea/.idea.PasswordValidation/.idea
 /PasswordValidation/obj
+/PasswordValidation/bin/Debug
+/PasswordValidation.Test/obj
