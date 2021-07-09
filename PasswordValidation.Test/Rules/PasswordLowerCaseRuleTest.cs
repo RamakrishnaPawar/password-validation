@@ -1,3 +1,4 @@
+using PasswordValidation.Exceptions;
 using PasswordValidation.Rules;
 using Xunit;
 
@@ -27,13 +28,11 @@ namespace PasswordValidation.Test.Rules
         
             
         [Fact]
-        public void ShouldReturnTrueWhenPasswordDoesNotHaveLowerCaseLetter()
+        public void ShouldThrowErrorWhenPasswordDoesNotHaveLowerCaseLetter()
         {
             const string input = "RWEYEW";
-
-            var actual = new PasswordLowerCaseRule().Evaluate(input);
             
-            Assert.False(actual);
+            Assert.Throws<PasswordLowerCaseRuleException>(() => new PasswordLowerCaseRule().Evaluate(input));
         }
     }
 }

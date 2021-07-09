@@ -1,3 +1,5 @@
+using PasswordValidation.Exceptions;
+
 namespace PasswordValidation.Rules
 {
     public class PasswordLengthRule : IRule
@@ -6,7 +8,12 @@ namespace PasswordValidation.Rules
 
         public bool Evaluate(string input)
         {
-            return input != null && input.Length >= MinimumLength;
+            if (input != null && input.Length >= MinimumLength)
+            {
+                return true;
+            }
+
+            throw new PasswordLengthRuleException($"Minimum required password length:{MinimumLength}");
         }
     }
 }

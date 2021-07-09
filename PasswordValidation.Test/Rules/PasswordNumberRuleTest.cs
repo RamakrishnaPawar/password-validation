@@ -1,3 +1,4 @@
+using PasswordValidation.Exceptions;
 using PasswordValidation.Rules;
 using Xunit;
 
@@ -26,13 +27,11 @@ namespace PasswordValidation.Test.Rules
         }
         
         [Fact]
-        public void ShouldReturnFalseWhenPasswordDoesNotHaveNumber()
+        public void ShouldThrowErrorWhenPasswordDoesNotHaveNumber()
         {
             const string input = "aAbs";
             
-            var actual = new PasswordNumberRule().Evaluate(input);
-            
-            Assert.False(actual);
+            Assert.Throws<PasswordNumberRuleException>( () => new PasswordNumberRule().Evaluate(input));
         }
     }
 }

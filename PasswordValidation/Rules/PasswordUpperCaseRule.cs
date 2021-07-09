@@ -1,4 +1,5 @@
 using System.Linq;
+using PasswordValidation.Exceptions;
 
 namespace PasswordValidation.Rules
 {
@@ -6,7 +7,9 @@ namespace PasswordValidation.Rules
     {
         public bool Evaluate(string input)
         {
-            return input.Any(char.IsUpper);
+            if (input.Any(char.IsUpper))
+                return true;
+            throw new PasswordUpperCaseRuleException($"Minimum 1 character required in upper case");
         }
     }
 }

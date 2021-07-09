@@ -1,4 +1,5 @@
 using System.Linq;
+using PasswordValidation.Exceptions;
 
 namespace PasswordValidation.Rules
 {
@@ -6,7 +7,9 @@ namespace PasswordValidation.Rules
     {
         public bool Evaluate(string input)
         {
-            return input.Any(char.IsNumber);
+            if (input.Any(char.IsNumber))
+                return true;
+            throw new PasswordNumberRuleException($"Minimum 1 character required to number");
         }
     }
 }

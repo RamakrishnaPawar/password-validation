@@ -1,3 +1,4 @@
+using PasswordValidation.Exceptions;
 using PasswordValidation.Rules;
 using Xunit;
 
@@ -27,13 +28,11 @@ namespace PasswordValidation.Test.Rules
         }
         
         [Fact]
-        public void ShouldReturnFalseWhenPasswordLengthIsLessThanToRequiredLength()
+        public void ShouldThrowErrorWhenPasswordLengthIsLessThanToRequiredLength()
         {
             const string input = "Abc123";
-
-            var actual = new PasswordLengthRule().Evaluate(input);
-
-            Assert.False(actual);
+            
+            Assert.Throws<PasswordLengthRuleException>(() => new PasswordLengthRule().Evaluate(input));
         }
     }
 }

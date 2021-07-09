@@ -1,3 +1,4 @@
+using PasswordValidation.Exceptions;
 using PasswordValidation.Rules;
 using Xunit;
 
@@ -11,28 +12,26 @@ namespace PasswordValidation.Test.Rules
             const string input = "adsU";
 
             var actual = new PasswordUpperCaseRule().Evaluate(input);
-            
+
             Assert.True(actual);
         }
-        
+
         [Fact]
         public void ShouldReturnTrueWhenPasswordHasUpperCaseLetter()
         {
             const string input = "adsAAsdU";
 
             var actual = new PasswordUpperCaseRule().Evaluate(input);
-            
+
             Assert.True(actual);
         }
-        
+
         [Fact]
-        public void ShouldReturnFalseWhenPasswordDoesNotHaveUpperCaseLetter()
+        public void ShouldThrowErrorWhenPasswordDoesNotHaveUpperCaseLetter()
         {
             const string input = "adsasyrer";
 
-            var actual = new PasswordUpperCaseRule().Evaluate(input);
-            
-            Assert.False(actual);
+            Assert.Throws<PasswordUpperCaseRuleException>(() => new PasswordUpperCaseRule().Evaluate(input));
         }
     }
 }
